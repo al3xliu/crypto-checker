@@ -15,10 +15,6 @@ class SubtypingTest {
             @AllowedProviders("p1") String i) {
         @UnknownAlgorithmOrProvider String a = x;
         @UnknownAlgorithmOrProvider String b = y;
-        // :: error: assignment :: error: allowed.algorithm.or.provider.not.set
-        @AllowedAlgorithms String c = x;
-        // :: error: allowed.algorithm.or.provider.not.set
-        @AllowedAlgorithms String d = y;
         @AllowedAlgorithms({"algo1", "algo2"})
         String e = z;
         @AllowedAlgorithms({"algo1"})
