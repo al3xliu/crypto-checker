@@ -6,7 +6,6 @@ import java.util.List;
 import javax.lang.model.element.AnnotationMirror;
 import javax.lang.model.util.Elements;
 import org.checkerframework.checker.crypto.qual.AllowedAlgorithms;
-import org.checkerframework.checker.crypto.qual.AllowedProviders;
 import org.checkerframework.checker.crypto.qual.Bottom;
 import org.checkerframework.checker.crypto.qual.UnknownAlgorithmOrProvider;
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
@@ -21,9 +20,6 @@ public class CryptoAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
     /** The @{@link AllowedAlgorithms} annotation. */
     protected final AnnotationMirror ALLOWEDALGORITHMS =
             AnnotationBuilder.fromClass(elements, AllowedAlgorithms.class);
-    /** The @{@link AllowedProviders} annotation. */
-    protected final AnnotationMirror ALLOWPROVIDERS =
-            AnnotationBuilder.fromClass(elements, AllowedProviders.class);
     /** The @{@link Bottom} annotation. */
     protected final AnnotationMirror BOTTOM = AnnotationBuilder.fromClass(elements, Bottom.class);
     /** The @{@link UnknownAlgorithmOrProvider} annotation. */
@@ -63,9 +59,6 @@ public class CryptoAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
                 return false;
             } else if (AnnotationUtils.areSameByName(subtype, ALLOWEDALGORITHMS)
                     && AnnotationUtils.areSameByName(supertype, ALLOWEDALGORITHMS)) {
-                return compareAllowedAlgorithmOrProviderTypes(subtype, supertype);
-            } else if (AnnotationUtils.areSameByName(subtype, ALLOWPROVIDERS)
-                    && AnnotationUtils.areSameByName(supertype, ALLOWPROVIDERS)) {
                 return compareAllowedAlgorithmOrProviderTypes(subtype, supertype);
             } else {
                 return false;

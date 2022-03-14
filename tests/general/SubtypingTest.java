@@ -1,7 +1,6 @@
 package hardwarebacked;
 
 import org.checkerframework.checker.crypto.qual.AllowedAlgorithms;
-import org.checkerframework.checker.crypto.qual.AllowedProviders;
 import org.checkerframework.checker.crypto.qual.UnknownAlgorithmOrProvider;
 
 class SubtypingTest {
@@ -11,8 +10,7 @@ class SubtypingTest {
     void test(
             @UnknownAlgorithmOrProvider String x,
             @AllowedAlgorithms String y,
-            @AllowedAlgorithms({"algo1", "algo2"}) String z,
-            @AllowedProviders("p1") String i) {
+            @AllowedAlgorithms({"algo1", "algo2"}) String z) {
         @UnknownAlgorithmOrProvider String a = x;
         @UnknownAlgorithmOrProvider String b = y;
         @AllowedAlgorithms({"algo1", "algo2"})
@@ -20,10 +18,5 @@ class SubtypingTest {
         @AllowedAlgorithms({"algo1"})
         // :: error: assignment
         String f = z;
-        @AllowedProviders("p1")
-        String g = i;
-        @AllowedProviders("p2")
-        // :: error: assignment
-        String h = i;
     }
 }
