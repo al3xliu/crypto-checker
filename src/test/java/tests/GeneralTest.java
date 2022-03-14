@@ -15,7 +15,7 @@ public class GeneralTest extends CheckerFrameworkPerFileTest {
                 CryptoChecker.class,
                 "general",
                 "-Anomsgtext",
-                "-Astubs=cipher.astub",
+                "-Astubs=stubs/",
                 "-AnonNullStringsConcatenation",
                 "-nowarn");
     }
