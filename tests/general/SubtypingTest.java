@@ -15,7 +15,7 @@ class SubtypingTest {
         @Unique({"algo1"})
         // :: error: assignment
         String f = z;
-//        MyClass m1 = new MyClass();
+        //        MyClass m1 = new MyClass();
         testInvocation(e);
     }
 
@@ -24,10 +24,10 @@ class SubtypingTest {
         y = x;
     }
 
-//    private static class MyClass {
-//        void a(@Top String x) {
-//            String y;
-//            y = x;
-//        }
-//    }
+    //    private static class MyClass {
+    //        void a(@Top String x) {
+    //            String y;
+    //            y = x;
+    //        }
+    //    }
 }
