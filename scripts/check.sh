@@ -30,9 +30,9 @@ done
 cmd=""
 
 if [[ "$DEBUG" == "" ]]; then
-    cmd="$JAVAC -cp "${CLASSPATH}" -processor "${CHECKER}" -Astubs="${STUBFILE}" -AnonNullStringsConcatenation "${ARGS[@]}""
+    cmd="$JAVAC -cp "${CLASSPATH}" -processor "${CHECKER}"  -AnonNullStringsConcatenation "${ARGS[@]}""
 else
-    cmd="$JAVAC "${DEBUG}" -cp "${CLASSPATH}" -processor "${CHECKER}" -Astubs="${STUBFILE}" -AnonNullStringsConcatenation "${ARGS[@]}""
+    cmd="$JAVAC "${DEBUG}" -cp "${CLASSPATH}" -processor "${CHECKER}" -AnonNullStringsConcatenation "${ARGS[@]}""
 fi
 
 eval "${cmd}"
