@@ -40,7 +40,8 @@ public class CryptoVisitor extends BaseTypeVisitor<CryptoAnnotatedTypeFactory> {
             Object... extraArgs) {
         // forbid @unique alias here
         AnnotatedTypeMirror valueType = atypeFactory.getAnnotatedType(valueExp);
-        if (AnnotationUtils.areSameByName((AnnotationMirror) valueType, UNIQUE)) {
+        AnnotationMirror valueTypeMirror = valueType.getAnnotation(Unique.class);
+        if (valueTypeMirror != null && AnnotationUtils.areSameByName(valueTypeMirror, UNIQUE)) {
             checker.reportError(valueExp, "unique.alias.not.allowed");
         }
         super.commonAssignmentCheck(varType, valueExp, errorKey, extraArgs);
