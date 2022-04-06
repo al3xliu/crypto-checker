@@ -1,5 +1,7 @@
 package org.checkerframework.checker.crypto;
 
+import com.sun.source.tree.AssignmentTree;
+import com.sun.source.tree.ExpressionTree;
 import java.lang.annotation.Annotation;
 import java.util.Collection;
 import java.util.List;
@@ -10,8 +12,12 @@ import org.checkerframework.checker.crypto.qual.Top;
 import org.checkerframework.checker.crypto.qual.Unique;
 import org.checkerframework.common.basetype.BaseAnnotatedTypeFactory;
 import org.checkerframework.common.basetype.BaseTypeChecker;
+import org.checkerframework.framework.type.AnnotatedTypeFactory;
+import org.checkerframework.framework.type.AnnotatedTypeMirror;
 import org.checkerframework.framework.type.ElementQualifierHierarchy;
 import org.checkerframework.framework.type.QualifierHierarchy;
+import org.checkerframework.framework.type.treeannotator.ListTreeAnnotator;
+import org.checkerframework.framework.type.treeannotator.TreeAnnotator;
 import org.checkerframework.javacutil.AnnotationBuilder;
 import org.checkerframework.javacutil.AnnotationUtils;
 
@@ -80,6 +86,31 @@ public class CryptoAnnotatedTypeFactory extends BaseAnnotatedTypeFactory {
             List<String> subtypeRegexList =
                     AnnotationUtils.getElementValueArray(subtype, "value", String.class, true);
             return supertypeRegexList.containsAll(subtypeRegexList);
+        }
+    }
+
+    @Override
+    protected TreeAnnotator createTreeAnnotator() {
+        return new ListTreeAnnotator(
+                super.createTreeAnnotator(),
+                new CryptoAnnotatedTypeFactory.CryptoTreeAnnotator(this));
+    }
+
+    private class CryptoTreeAnnotator extends TreeAnnotator {
+        public CryptoTreeAnnotator(AnnotatedTypeFactory atypeFactory) {
+            super(atypeFactory);
+        }
+
+        @Override
+        public Void visitAssignment(AssignmentTree node, AnnotatedTypeMirror type) {
+            ExpressionTree rhs = node.getExpression();
+            AnnotatedTypeMirror valueType = atypeFactory.getAnnotatedType(rhs);
+            AnnotationMirror valueTypeMirror = valueType.getAnnotation(Unique.class);
+            // replace rhs anno
+            if (valueTypeMirror != null && AnnotationUtils.areSameByName(valueTypeMirror, UNIQUE)) {
+                valueType.replaceAnnotation(TOP);
+            }
+            return super.visitAssignment(node, type);
         }
     }
 }
